@@ -1,6 +1,7 @@
 ﻿
+using Microsoft.EntityFrameworkCore;
+using UserManagement.Application.Common.Exceptions;
 using UserManagement.Application.Common.Interfaces;
-using UserManagement.Domain.Entities;
 
 namespace UserManagement.Application.Core.Email.Command;
 
@@ -13,25 +14,31 @@ public class ValidateOtpCommand : IRequest<bool>
 
 public class ValidateOtpCommandHandler : IRequestHandler<ValidateOtpCommand, bool>
 {
-    private readonly List<Otp> _otpStorage; // Simulating storage for demonstration
+    private readonly IApplicationDbContext _context;
 
-    public ValidateOtpCommandHandler()
+    public ValidateOtpCommandHandler(IApplicationDbContext context)
     {
-        _otpStorage = new List<Otp>(); // Replace with your actual database or storage
+       _context = context;
     }
 
     public async Task<bool> Handle(ValidateOtpCommand request, CancellationToken cancellationToken)
     {
         // Find OTP for the email (in a real application, query the database)
-        var otp = _otpStorage.FirstOrDefault(o => o.Email == request.Email);
+        // Get the OTP from the database
+        var otp = await _context.Otps
+            .Where(o => o.Email == request.Email && o.Code == request.Code)
+            .FirstOrDefaultAsync();
+
+        if (otp?.RetryCount > 10)
+        {
+            throw new TooManyRetryException(otp.Email);
+        }
 
         if (otp == null || !otp.IsValid(request.Code))
         {
-            return false;
+            throw new OtpTimeoutException(request.Email);
         }
 
-        // OTP is valid, optionally remove it after use
-        _otpStorage.Remove(otp);
 
         return true;
     }

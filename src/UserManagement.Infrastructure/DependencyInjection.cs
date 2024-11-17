@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using UserManagement.Application.Common.Interfaces;
 using UserManagement.Infrastructure.EmailSender;
+using UserManagement.Infrastructure.Persistence;
 
 namespace UserManagement.Infrastructure
 {
@@ -10,8 +12,11 @@ namespace UserManagement.Infrastructure
       public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
 
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
-            //services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
+            // Add services to the container.
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseInMemoryDatabase("InMemoryDb"));
+
+            services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
             services.AddScoped<IEmailSender, EmailSenderService>();
 
             return services;

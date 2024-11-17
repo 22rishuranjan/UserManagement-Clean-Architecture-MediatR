@@ -10,10 +10,9 @@ namespace UserManagement.Application.Core.Email.Command
             RuleFor(x => x.Email)
            .NotEmpty().WithMessage("Email is required.")
            .EmailAddress().WithMessage("Invalid email format.")
-           .Must(HaveValidDomain).WithMessage("Email must be from the domain '.dso.org.sg'.");
+           .Must(HaveValidDomain).WithMessage("Email must be from the domain '@dso.org.sg'.");
 
             RuleFor(x => x.Code)
-           .NotEmpty().WithMessage("Name is required.")
            .Length(6).WithMessage("OTP must be of 6 digit");
         }
 
@@ -22,7 +21,7 @@ namespace UserManagement.Application.Core.Email.Command
             if (string.IsNullOrEmpty(email)) return false;
 
             var domain = email.Split('@').LastOrDefault();
-            return domain == ".dso.org.sg";
+            return domain == "dso.org.sg";
         }
     }
 }

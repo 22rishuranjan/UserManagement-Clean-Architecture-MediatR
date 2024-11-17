@@ -9,7 +9,7 @@ namespace UserManagement.Application.Core.Email.Command.SendOtp
             RuleFor(x => x.Email)
            .NotEmpty().WithMessage("Email is required.")
            .EmailAddress().WithMessage("Invalid email format.")
-           .Must(HaveValidDomain).WithMessage("Email must be from the domain '.dso.org.sg'.");
+           .Must(HaveValidDomain).WithMessage("Email must be from the domain '@dso.org.sg'.");
         }
 
         private bool HaveValidDomain(string email)
@@ -17,7 +17,7 @@ namespace UserManagement.Application.Core.Email.Command.SendOtp
             if (string.IsNullOrEmpty(email)) return false;
 
             var domain = email.Split('@').LastOrDefault();
-            return domain == ".dso.org.sg";
+            return domain == "dso.org.sg";
         }
     }
 }

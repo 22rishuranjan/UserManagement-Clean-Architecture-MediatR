@@ -4,17 +4,17 @@ This project provides a clean architecture implementation of a User Management s
 
 ## Features
 - **CQRS Pattern**: Utilizes MediatR for command handling.
-- **Email Notification**: Sends email notifications upon user creation.
-- **Authorization**: Ensures only authorized users can perform specific actions.
+- **Email Notification**: Sends email notifications
 - **Rate Limiting**: Protects endpoints from being overwhelmed by requests.
 - **CORS Configuration**: Allows secure cross-origin resource sharing.
-- **XSRF Protection**: Safeguards against cross-site request forgery attacks.
+- **XSRF Protection**: Safeguards against cross-site request forgery attacks. //Disabled for now.
 - **Logging**: Microsoft.Extensions.Logging is used to add logging to debug window as well as console.
 
 ## Prerequisites
 - .NET 8 SDK
 - Visual Studio 2022 or later / Visual Studio Code
 - SMTP service for email (optional, for production)
+- PaperCut SMTP Server ( https://github.com/ChangemakerStudios/Papercut-SMTP/releases)
 
 ## Installation and Setup
 1. **Clone the repository**:
@@ -23,70 +23,50 @@ This project provides a clean architecture implementation of a User Management s
    cd user-management-service
    ```
 
-2. **Configure dependencies** in `Program.cs` or `Startup.cs`:
+2. **Configure MOCK SMPTP SERVER** in `Program.cs` or `Startup.cs`:
    ```csharp
-   var builder = WebApplication.CreateBuilder(args);
-
-   // Add services to the container
-   builder.Services.AddUserManagement(builder.Configuration);
-
-   var app = builder.Build();
-
-   // Configure middleware
-   app.UseCors("AllowSpecificOrigins");
-   app.UseRateLimiter();
-   app.UseAntiforgeryMiddleware();
-   app.UseAuthorization();
-
-   app.MapControllers();
-   app.Run();
+    Download PaperCut to receive email. 
+      https://github.com/ChangemakerStudios/Papercut-SMTP/releases
    ```
 
-3. **Configure CORS policy** in `AppServiceExtenstion.cs`:
-   ```csharp
-   services.AddCors(options =>
-   {
-       options.AddPolicy("AllowSpecificOrigins", builder =>
-       {
-           builder.WithOrigins("https://example.com")
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
-       });
-   });
-   ```
-
-4. **Configure rate limiting**:
-   ```csharp
-   services.AddRateLimiter(options =>
-   {
-       options.GlobalLimiter = RateLimitPartition.GetFixedWindowLimiter<string>(
-           partitionKeyProvider: httpContext => "global",
-           factory: _ => new FixedWindowRateLimiterOptions
-           {
-               PermitLimit = 100,
-               Window = TimeSpan.FromMinutes(1),
-               AutoReplenishment = true
-           });
-   });
-   ```
 
 ## How to Use
-### User Creation
-Send a POST request to the designated endpoint (e.g., `/api/users`) with the required data:
+### Email Send
+Send a POST request to the designated endpoint (e.g., `https://localhost:44353/send`) with the required data:
 ```json
 {
    "email": "user@example.com",
    "userName": "NewUser"
 }
+
+Validations:
+  a. Email must not be blank
+  b.Email format should be correct
+  c. Email must contain @dso.org.sg domain.
+```
+
+Send a POST request to the designated endpoint (e.g., `https://localhost:44353/validate`) with the required data:
+```json
+{
+   "email": "user@example.com",
+   "code": "Otp"
+}
+
+Validations:
+  a. Email must not be blank
+  b. Email format should be correct
+  c. Email must contain @dso.org.sg domain.
+  d. Otp must not be blank
+  e. Otp lenght should be 6 digit
 ```
 
 ### Email Service
-Ensure that the `IEmailService` is configured with a real implementation for production use.
+Install Papercut https://github.com/ChangemakerStudios/Papercut-SMTP/releases to mock the SMTP server.
 
 ## Security Considerations
 - **Rate Limiting**: Prevents abuse by limiting the number of requests per minute.
 - **XSRF Protection**: Validates tokens to mitigate CSRF attacks.
-- **Authorization**: Uses claims-based checks to control access.
+
 
 ## License
 This project is licensed under the MIT License.

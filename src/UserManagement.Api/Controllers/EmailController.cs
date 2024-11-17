@@ -1,4 +1,5 @@
-﻿using UserManagement.Application.Core.Email.Command.SendOtp;
+﻿using UserManagement.Application.Core.Email.Command;
+using UserManagement.Application.Core.Email.Command.SendOtp;
 
 namespace UserManagement.Api.Controllers;
 
@@ -18,15 +19,28 @@ public class EmailController : BaseApiController
     [HttpPost("send")]
     public async Task<IActionResult> SendOtp([FromBody] SendOtpCommand otpCommand)
     {
-        await _mediator.Send(otpCommand);
-        return Ok("OTP sent successfully.");
+       var result = await _mediator.Send(otpCommand);
+      
+
+        if (result)
+        {
+            return Ok("Email sent successfully!");
+        }
+
+        return BadRequest("Failed to send email.");
     }
 
-    //[HttpPost("validate")]
-    //public async Task<IActionResult> ValidateOtp([FromBody] SendOtpCommand otpCommand)
-    //{
-    //    await _mediator.Send(otpCommand);
-    //    return Ok("OTP validated successfully.");
-    //}
+    [HttpPost("validate")]
+    public async Task<IActionResult> ValidateOtp([FromBody] ValidateOtpCommand otpCommand)
+    {
+        var result = await _mediator.Send(otpCommand);
+
+        if (result)
+        {
+            return Ok("OTP validated successfully.");
+        }
+
+        return BadRequest("Failed to verify OTP.");
+    }
 }
 

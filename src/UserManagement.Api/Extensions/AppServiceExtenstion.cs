@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using UserManagement.Api.Filters;
 using UserManagement.Infrastructure;
 using UserManagement.Application;
+using Microsoft.Extensions.Options;
 
 namespace UserManagement.Api.Extensions;
 
@@ -18,12 +19,19 @@ public static class AppServiceExtenstion
         services.AddInfrastructureServices(configuration); //  services like Dbcontext, logging, IO Services
         
         // Register services to the container
-        services.AddControllers(); 
+
+
+        services.AddControllers(options =>
+        {
+            // Register the custom filter globally for all controllers
+            options.Filters.Add<CustomExceptionHandler>();
+        });
+
+
         services.AddAuthorization(); // Adds default authorization services
         services.AddSwagger();
         services.AddCors();
         services.AddResponseCompression();
-        services.AddExceptionHandler<CustomExceptionHandler>();
 
    
         // Customise default API behaviour

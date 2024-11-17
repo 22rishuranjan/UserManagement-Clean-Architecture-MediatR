@@ -11,6 +11,9 @@ public class Program
 
         builder.AddAppLogging();
         builder.Services.AddAppServices(builder.Configuration);
+        // Customise default API behaviour
+        builder.Services.Configure<ApiBehaviorOptions>(options =>
+            options.SuppressModelStateInvalidFilter = true);
 
         var app = builder.Build();
 
