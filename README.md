@@ -19,7 +19,7 @@ This project provides a clean architecture implementation of a User Management s
 ## Installation and Setup
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-repo/user-management-service.git
+   git clone https://github.com/22rishuranjan/UserManagement-Clean-Architecture-MediatR.git
    cd user-management-service
    ```
 
