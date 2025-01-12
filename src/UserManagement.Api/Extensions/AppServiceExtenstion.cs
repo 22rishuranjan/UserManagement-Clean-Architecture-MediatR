@@ -8,6 +8,7 @@ using UserManagement.Api.Filters;
 using UserManagement.Infrastructure;
 using UserManagement.Application;
 using Microsoft.Extensions.Options;
+using System.Text.Json;
 
 namespace UserManagement.Api.Extensions;
 
@@ -15,12 +16,11 @@ public static class AppServiceExtenstion
 {
     public static IServiceCollection AddAppServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddApplicationServices(); //  services like businesslogic, validations
+   
         services.AddInfrastructureServices(configuration); //  services like Dbcontext, logging, IO Services
-        
+        services.AddApplicationServices(configuration); //  services like businesslogic, validations
+
         // Register services to the container
-
-
         services.AddControllers(options =>
         {
             // Register the custom filter globally for all controllers
@@ -32,7 +32,7 @@ public static class AppServiceExtenstion
         services.AddSwagger();
         services.AddCors();
         services.AddResponseCompression();
-
+        services.AddRateLimiter();
    
         // Customise default API behaviour
         services.Configure<ApiBehaviorOptions>(options =>
@@ -43,8 +43,13 @@ public static class AppServiceExtenstion
             options.HeaderName = "X-XSRF-TOKEN"; // Set the header name for your custom needs
         });
 
-        services.AddRateLimiter();
-            
+
+        services.AddControllers().AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+        });
+
+
 
         return services;
     }
@@ -118,5 +123,6 @@ public static class AppServiceExtenstion
                 options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
                 options.QueueLimit = 2;
             }));
+
     }
 }

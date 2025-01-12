@@ -2,7 +2,9 @@
 
 namespace UserManagement.Api.Controllers;
 
-    public class AntiForgeryController : ControllerBase
+[ApiController]
+[Route("api/[controller]")]
+public class AntiForgeryController : ControllerBase
     {
         private readonly IAntiforgery _antiforgery;
 

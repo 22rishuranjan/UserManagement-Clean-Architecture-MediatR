@@ -1,7 +1,5 @@
 ﻿
-
 using Microsoft.EntityFrameworkCore;
-
 using UserManagement.Domain.Entities;
 
 namespace UserManagement.Application.Common.Interfaces
@@ -13,3 +11,4 @@ namespace UserManagement.Application.Common.Interfaces
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }
+    

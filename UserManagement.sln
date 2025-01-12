@@ -3,18 +3,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35219.272
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManagement.Application", "src\Application\UserManagement.Application.csproj", "{D3298CB8-18CC-45B0-959F-6B705C0352E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement.Application", "src\UserManagement.Application\UserManagement.Application.csproj", "{D3298CB8-18CC-45B0-959F-6B705C0352E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManagement.Domain", "src\Domain\UserManagement.Domain.csproj", "{B8598293-9A95-4313-918E-B9126AD26DCA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement.Domain", "src\UserManagement.Domain\UserManagement.Domain.csproj", "{B8598293-9A95-4313-918E-B9126AD26DCA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManagement.Infrastructure", "src\UserManagement.Infrastructure\UserManagement.Infrastructure.csproj", "{43311BC1-21F8-4846-8E00-FFB7EC5BB822}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement.Infrastructure", "src\UserManagement.Infrastructure\UserManagement.Infrastructure.csproj", "{43311BC1-21F8-4846-8E00-FFB7EC5BB822}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{001DF298-F006-47C3-96E5-71E89D22C48A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManagement.Api", "src\UserManagement.Api\UserManagement.Api.csproj", "{FF77284C-751B-4A93-B0C5-8722DC2DEBC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement.Api", "src\UserManagement.Api\UserManagement.Api.csproj", "{FF77284C-751B-4A93-B0C5-8722DC2DEBC4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0FDCA8EA-250B-4DCB-91C7-DD69DF5A5FDF}"
 	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
+		docker-compose.yml = docker-compose.yml
+		docker.ReadMe = docker.ReadMe
+		Dockerfile = Dockerfile
 		README.md = README.md
 	EndProjectSection
 EndProject

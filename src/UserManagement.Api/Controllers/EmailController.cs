@@ -3,6 +3,9 @@ using UserManagement.Application.Core.Email.Command.SendOtp;
 
 namespace UserManagement.Api.Controllers;
 
+
+[ApiController]
+[Route("api/[controller]")]
 public class EmailController : BaseApiController
 {
     private readonly IMediator _mediator;
