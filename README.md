@@ -1,6 +1,4 @@
-Here's an updated version of your README file that includes all the endpoints for the `UserController` and `CountryController` and other enhancements:
 
----
 
 # User Management Service with Email Notification
 
