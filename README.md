@@ -209,6 +209,3 @@ Just to let you know, pull requests are welcome. For significant changes, please
 ## Contact
 For questions or support, please contact [22rishuranjan@gmail.com](mailto:22rishuranjan@gmail.com).
 
----
-
-This README now includes all endpoints and their usage, ensuring clarity and easy reference for developers working on or using the service.
